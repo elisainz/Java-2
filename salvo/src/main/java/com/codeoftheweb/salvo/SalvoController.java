@@ -64,15 +64,12 @@ public class SalvoController {
                     .map(Ship::getDto)
                     .collect(Collectors.toList());
         }
-
-
-
-            @RequestMapping("/leaderboard")
+    @RequestMapping("/leaderboard")
             public List<Map<String, Object>> getPlayers() {
             return playerRepository.findAll()
                     .stream()
                     .sorted(Comparator.comparing(Player::getTotalScore).reversed())
                     .map(Player::getLeaderboardDto)
                     .collect(toList());
-        }
+    }
 }

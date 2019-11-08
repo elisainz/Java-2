@@ -125,7 +125,7 @@ class WebSecurityConfiguration extends GlobalAuthenticationConfigurerAdapter {
         auth.userDetailsService(inputName -> {
             Player player = playerRepository.findByUserName(inputName);
             if (player != null) {
-                return new User(player.getUserName(), passwordEncoder.encode(player.getPassword()),
+                return new User(player.getUserName(), player.getPassword(),
                         AuthorityUtils.createAuthorityList("USER"));
             } else {
                 throw new UsernameNotFoundException("Unknown user: " + inputName);
@@ -142,14 +142,14 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/web/game.html/**").permitAll()
-                .antMatchers("/web/css/**").permitAll()
-                .antMatchers("/web/js/**").permitAll()
+                .antMatchers("/web/games.html*").permitAll()
+                .antMatchers("/web/css/*").permitAll() //**hacen referencia a todas las carpetas dentro de css
+                .antMatchers("/web/js/*").permitAll()
                 .antMatchers("/api/leaderboard").permitAll()
-                .antMatchers("/api/games", "/api/login/").permitAll()
+                .antMatchers("/api/games", "/api/login").permitAll()
                 .antMatchers("/api/players").permitAll()
-                .antMatchers("/api/game_view/**", "/web/games.html*", "/api/games/**").hasAuthority("USER")
-                .antMatchers("/rest/**").hasAuthority("ADMIN")
+                .antMatchers("/api/game_view/*", "/web/game.html*").hasAuthority("USER")
+                .antMatchers("/rest/*").hasAuthority("ADMIN")
                 .anyRequest().denyAll();
 
         http.formLogin()
