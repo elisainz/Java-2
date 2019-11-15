@@ -3,6 +3,8 @@ package com.codeoftheweb.salvo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,14 +28,35 @@ public class SalvoController {
     @Autowired
     private PlayerRepository playerRepository;
 
-    @RequestMapping("/games")
-    public List<Map<String, Object>> getGames() {
-        return gameRepository.findAll()
-                .stream()
-                .map(Game::getDto)
-                .collect(Collectors.toList());
+
+    private boolean guest (Authentication authentication) {
+        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
     }
 
+    @RequestMapping("/games")
+    public Map<String,Object> getGames(Authentication authentication){
+        Map<String,Object> dto = new LinkedHashMap<>(); //LinkedHashMap is just like HashMap with an additional feature of maintaining an order of elements inserted into it.
+
+    //public List<Map<String, Object>> getGames() {
+        //return gameRepository.findAll()
+            //    .stream()
+             //   .map(Game::getDto)
+             //   .collect(Collectors.toList());
+    //}
+
+      if (guest(authentication)){
+        dto.put("player", "guest");
+    }else{
+        Player player = playerRepository.findByUserName(authentication.getName());
+        dto.put("player", player.getPlayerDto());
+    }
+
+       dto.put("games", gameRepository.findAll()
+               .stream()
+            .map(Game::getDto)
+            .collect(toList()));
+    return dto;
+}
 
     @RequestMapping("/game_view/{id}")
     public Map<String, Object> getGameView(@PathVariable long id) {
