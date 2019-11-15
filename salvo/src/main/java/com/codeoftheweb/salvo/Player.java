@@ -12,6 +12,7 @@ import static java.util.stream.Collectors.toSet;
 @Entity
 public class Player {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")

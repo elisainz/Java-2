@@ -64,7 +64,7 @@ public class SalvoApplication extends SpringBootServletInitializer {
             Game game1 = new Game(date1);
             Game game2 = new Game(date2);
             Game game3 = new Game(date3);
-            Game game4 = new Game (date3);
+            Game game4 = new Game(date3);
 
             gameRepository.saveAll(Arrays.asList(game1, game2, game3, game4));
 
@@ -86,10 +86,10 @@ public class SalvoApplication extends SpringBootServletInitializer {
             shipRepository.saveAll(Arrays.asList(ship1, ship2, ship3, ship4));
 
 
-            Salvo salvo1t1 = new Salvo (gameplayer1, new ArrayList<String>(Arrays.asList("E1", "F1", "G1")), 1);
-            Salvo salvo2t1 = new Salvo (gameplayer1, new ArrayList<String>(Arrays.asList("C", "C10")), 1);
-            Salvo salvo3t1 = new Salvo (gameplayer2, new ArrayList<String>(Arrays.asList("A1", "A2" )), 2);
-            Salvo salvo4t2 = new Salvo (gameplayer2, new ArrayList<String>(Arrays.asList("B5", "B6" )), 2);
+            Salvo salvo1t1 = new Salvo(gameplayer1, new ArrayList<String>(Arrays.asList("E1", "F1", "G1")), 1);
+            Salvo salvo2t1 = new Salvo(gameplayer1, new ArrayList<String>(Arrays.asList("C", "C10")), 1);
+            Salvo salvo3t1 = new Salvo(gameplayer2, new ArrayList<String>(Arrays.asList("A1", "A2")), 2);
+            Salvo salvo4t2 = new Salvo(gameplayer2, new ArrayList<String>(Arrays.asList("B5", "B6")), 2);
 
 
             salvoRepository.saveAll(Arrays.asList(salvo1t1, salvo2t1, salvo3t1, salvo4t2));
@@ -105,7 +105,7 @@ public class SalvoApplication extends SpringBootServletInitializer {
             Score score8 = new Score(0.5, game4, player2);
 
 
-            scoreRepository.saveAll(Arrays.asList(score1, score2, score3, score4,score5,score6, score7, score8));
+            scoreRepository.saveAll(Arrays.asList(score1, score2, score3, score4, score5, score6, score7, score8));
 
         };
     }
@@ -175,8 +175,8 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
 
 
-
     }
+
     private void clearAuthenticationAttributes(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
