@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,6 +32,9 @@ public class SalvoController {
     @Autowired
     private PlayerRepository playerRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     private boolean guest(Authentication authentication) {
         return authentication == null || authentication instanceof AnonymousAuthenticationToken;
@@ -40,12 +44,6 @@ public class SalvoController {
     public Map<String, Object> getGames(Authentication authentication) {
         Map<String, Object> dto = new LinkedHashMap<>(); //dto lo pasa a json
 
-        //public List<Map<String, Object>> getGames() {
-        //return gameRepository.findAll()
-        //    .stream()
-        //   .map(Game::getDto)
-        //   .collect(Collectors.toList());
-        //}
 
         if (guest(authentication)) {
             dto.put("player", "guest");
@@ -94,18 +92,18 @@ public class SalvoController {
 
     @RequestMapping(path = "/players", method = RequestMethod.POST)
     // ResponseEntity da flexibilidad adicional para definir encabezados de respuesta HTTP
-    public ResponseEntity<Object> register( //¿¿¿¿¿¿¿
+    public ResponseEntity<Map<String, Object>> register( //register es el nombre que le doy al metodo para crear un nuevo usuario(Player) a partir de la ruta ("/api/"players")
             @RequestParam String userName, @RequestParam String password) {
 
         if (userName.isEmpty() || password.isEmpty()) {
-            return new ResponseEntity<>("Missing data", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>( createMap("error", "Missing data"), HttpStatus.BAD_REQUEST);
         } else if (playerRepository.findByUserName(userName) != null) {
-            return new ResponseEntity<>("Name already in use", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(createMap ("error", "Name already in use"), HttpStatus.FORBIDDEN);
         }
 
-        Player player = new Player(userName, password);
+        Player player = new Player(userName, passwordEncoder.encode(password)); //hay que hacerle autowired al encoder
         playerRepository.save(player);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(createMap("success",player.getPlayerDto()), HttpStatus.CREATED);
     }
 
 
@@ -117,4 +115,16 @@ public class SalvoController {
                 .map(Player::getLeaderboardDto)
                 .collect(toList());
     }
+
+    //reemplaza a inicializar un map y cargarle.. make dto, etc
+    public Map<String, Object> createMap (String key, Object value) {
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put(key, value);
+        return map;
+    }
+
+
+
+
+
 }
