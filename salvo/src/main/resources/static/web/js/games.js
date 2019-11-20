@@ -24,3 +24,60 @@ function loadDataLeaderboard (){
            alert( "Failed: " + textStatus );
           });
 }
+
+$(function() {
+    $('.submitbutton').click(function () {
+        submitButton = $(this).attr('name')
+    });
+    $(".sign-up-button").click(function(){
+    var request = {
+                 username: $("#username").val(),
+                 password: $("#password").val()
+                 };
+        $.post("/api/players", request)
+        .done(function(){
+            alert("Success");
+        })
+        .fail(function(){
+            alert("Error");
+        })
+    })
+});
+$('#login-form').on('submit', function (event) {
+    event.preventDefault();
+    if (submitButton == "login") {
+    var request = {
+                 username: $("#username").val(),
+                 password: $("#password").val()
+                 };
+        $.post("/api/login", request)
+            .done(function() {
+             alert("Success");
+                $('#loginSuccess').show();
+                $("#username").val("");
+                $("#password").val("");
+                $.get("/api/games")
+                    .done(function(data){
+                    var player = data.players.email;
+                    $("#formularioLogin").hide();
+                    $("#logOut").show();
+                    $("#playerLoggueado").text("User: " + player);
+                    })
+            })
+            .fail(function() {
+                alert("Error");
+                $('#loginFailed').show();
+                $("#username").val("");
+                $("#password").val("");
+                $("#username").focus();
+            })
+    }
+});
+function logout(){
+          $.post("/api/logout")
+              .done(function(){
+              alert("Logged out");
+              $("#formularioLogin").show();
+              $("#logOut").hide();
+              })
+      }

@@ -5,12 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Salvo!</title>
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/games.css">
 </head>
 <body class="container">
-<h2> Salvo Games</h2>
+<h1> Salvo Games</h1>
+
+<div id="FormularioLogin"> <!--w custom bootstrap buttons-->
+    <form class="form-group" id="login-form" onsubmit="return false">
+        <label for="username"> Name: &nbsp; </label>  <input class="form-control" id="username" type="email" placeholder="Enter email" name="username" required >
+        <br>
+        <label for="password"> Password: &nbsp; </label> <input class="form-control" id="password" type="password" placeholder="Password" name="password" required>
+        <br>
+        <input type="submit" class="form-contro  submitbutton btn btn-info" name="login" value="Log In"> &nbsp;
+        <input type="button" class="form-contro  sign-up-button btn btn-primary" name="singup" value="Sign Up">
+    </form>
+
+</div>
+<div id="logOut" class="row">
+    <button class="btn btn-danger" onclick="logout()"> Log Out</button>
+    <p id="playerLoggueado"></p>
+</div>
+
+
+
+
+<h2> Leaderboard </h2>
 <div class="row">
-    <section class="col-6" >
+    <section class="col-6">
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -21,7 +44,8 @@
                 <th scope="col">Tied</th>
             </tr>
             </thead>
-            <tbody id="game-table"> <!--asi solo pinta el body, games.js, porque lo estatico no es necesario ("name", "total", "won", etc...)-->
+            <tbody id="game-table">
+            <!--asi solo pinta el body, games.js, porque lo estatico no es necesario ("name", "total", "won", etc...)-->
             <tr>
                 <td id="na1"></td>
                 <td id="to1"></td>
@@ -47,8 +71,6 @@
         </table>
     </section>
 </div>
-
-
 
 
 <script src="js/popper.min.js"></script>
