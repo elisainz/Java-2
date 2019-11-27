@@ -63,19 +63,18 @@ public class SalvoApplication extends SpringBootServletInitializer {
 
             Game game1 = new Game(date1);
             Game game2 = new Game(date2);
-            Game game3 = new Game(date3);
-            Game game4 = new Game(date3);
 
-            gameRepository.saveAll(Arrays.asList(game1, game2, game3, game4));
+
+
+            gameRepository.saveAll(Arrays.asList(game1, game2));
 
 
             GamePlayer gameplayer1 = new GamePlayer(date1, game1, player1); //pruebas
             GamePlayer gameplayer2 = new GamePlayer(date1, game1, player2);
-            GamePlayer gameplayer3 = new GamePlayer(date1, game2, player2);
+            GamePlayer gameplayer3 = new GamePlayer(date1, game2, player3);
             GamePlayer gameplayer4 = new GamePlayer(date1, game2, player4);
-            GamePlayer gameplayer5 = new GamePlayer(date1, game3, player4);
 
-            gamePlayerRepository.saveAll(Arrays.asList(gameplayer1, gameplayer2, gameplayer3, gameplayer4, gameplayer5));
+            gamePlayerRepository.saveAll(Arrays.asList(gameplayer1, gameplayer2, gameplayer3, gameplayer4));
 
 
             Ship ship1 = new Ship("Destroyer", gameplayer1, new ArrayList<String>(Arrays.asList("A1", "A2")));
@@ -99,13 +98,10 @@ public class SalvoApplication extends SpringBootServletInitializer {
             Score score2 = new Score(0, game1, player2);
             Score score3 = new Score(0.5, game2, player2);
             Score score4 = new Score(0.5, game2, player3);
-            Score score5 = new Score(0, game3, player3);
-            Score score6 = new Score(1, game3, player4);
-            Score score7 = new Score(0.5, game4, player1);
-            Score score8 = new Score(0.5, game4, player2);
 
 
-            scoreRepository.saveAll(Arrays.asList(score1, score2, score3, score4, score5, score6, score7, score8));
+
+            scoreRepository.saveAll(Arrays.asList(score1, score2, score3, score4));
 
         };
     }

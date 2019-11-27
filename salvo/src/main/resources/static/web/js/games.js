@@ -1,30 +1,75 @@
 var tabla =""
 
 $(function() {
-    createGameTable();
    loadDataLeaderboard();
 
 });
 
 
-function createGameTable () {
+
+//--------------------------------game-table--------------------------------------------
+
+ //function createGameTable () {
+//$.get("/api/games")
+//.done(
+//    function(dataGames) {
+ //   console.log(dataGames)
+ //   tabla = "<thead> <tr><th> GAME ID </th> <th> CREATED </th> <th> PLAYER 1 </th> <th> PLAYER 2 </th> <th> GAME ACTIONS </th> </tr> </thead> "
+  //  dataGames.games.forEach(function (game) {
+    //         tabla += "<tr>"
+     // tabla += "<td>" + game.id + "</td><td>" +  game.created  + "</td><td>" +   + "</td>";
+    //})
+  // tabla += "</tbody>"
+  //return tabla;
+  //})
+//document.getElementById("general-game-table").innerHTML = tabla;
+//}
+
+function tablaGames (){
 $.get("/api/games")
-.done(
-    function(dataGames) {
-    console.log(dataGames)
-    tabla = "<thead> <tr><th> GAME ID </th> <th> CREATED </th> <th> PLAYER 1 </th> <th> PLAYER 2 </th> <th> GAME ACTIONS </th> </tr> </thead> "
-    dataGames.games.forEach(function (game) {
-             tabla += "<tr>"
-     tabla += "<td>" + game.id + "</td><td>" +  game.created  + "</td><td>" +   + "</td>";
-    })
-  tabla += "</tbody>"
-  return tabla;
-  })
-document.getElementById("general-game-table").innerHTML = tabla;
+.done(function(data){
+app.games=data.games;
+app.user == data.player;
+})
+}
+tablaGames ();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+  games : [],
+  user :"",
+  }
+})
+
+
+
+/*function updateGameView (data) {
+    let htmlList = data.map (function(game) {
+
+       return  '<tr> <td>' + game.id + '</td> <td>' + game.created + '</td> <td>' + game.created + '</td> </td>' + '</td> <td>' + game.created + '</td> <tr>'     ;
+         }).join('');
+
+
+
+document.getElementById("general-game-table").innerHTML = htmlList;
+} */
+
+/*
+function loadDataGames () {
+ $.get("/api/games")
+        .done(function(data) {
+           updateGameView(data);
+         })
+         .fail(function( jqXHR, textStatus ) {
+           alert( "Failed: " + textStatus );
+          });
 }
 
+*/
 
 
+//--------------------------------leaderboard--------------------------------------------
 
 function updateView(data) {
     let htmlList = data.map(function (games) {
@@ -48,6 +93,10 @@ function loadDataLeaderboard (){
            alert( "Failed: " + textStatus );
           });
 }
+
+
+
+//--------------------------------sign in--------------------------------------------
 
 $(function () {
     $('.submitbutton').click(function () {

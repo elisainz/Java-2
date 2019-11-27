@@ -8,27 +8,62 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/games.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body class="container">
 <h1> Salvo Games</h1>
 
 <div id="FormularioLogin"> <!--w custom bootstrap buttons-->
     <form class="form-group" id="login-form" onsubmit="return false">
-        <label for="username"> Name: &nbsp; </label>  <input class="form-control" id="username" type="email" placeholder="Enter email" name="username" required >
         <br>
-        <label for="password"> Password: &nbsp; </label> <input class="form-control" id="password" type="password" placeholder="Password" name="password" required>
         <br>
-        <input type="submit" class="form-contro  submitbutton btn btn-info" name="login" value="Log In"> &nbsp;
-        <input type="button" class="form-contro  sign-up-button btn btn-primary" name="singup" value="Sign Up">
     </form>
 
 </div>
-<div id="logOut" class="row">
+<div v-if="user != 'guest'">
     <button class="btn btn-danger" onclick="logout()"> Log Out</button>
-    <p id="playerLoggueado"></p>
+
 </div>
 
+<div v-if="user=='guest'">
+    <label for="username"> Name: &nbsp; </label>  <input class="form-control" id="username" type="email" placeholder="Enter email" name="username" required >
+    <label for="password"> Password: &nbsp; </label> <input class="form-control" id="password" type="password" placeholder="Password" name="password" required>
 
+
+    <input type="submit" class="form-contro  submitbutton btn btn-info" name="login" value="Log In"> &nbsp;
+
+    <input type="button" class="form-contro  sign-up-button btn btn-primary" name="singup" value="Sign Up">
+
+</div>
+
+<!--<table id="general-game-table" class="table table-hover">
+
+</table> -->
+
+
+<h2> Games </h2>
+<div class="row" id="app">
+    <section class="col-6">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th scope="col">GAME ID</th>
+                <th scope="col">PLAYER 1</th>
+                <th scope="col">PLAYER 2</th>
+
+            </tr>
+            </thead>
+
+            <!--asi solo pinta el body, games.js, porque lo estatico no es necesario ("name", "total", "won", etc...)-->
+            <tr v-for="x in games">
+                <td id="id1">{{x.id}} </td>
+                <td id="player1.1">{{x.gamePlayers[0].player.email}}</td>
+                <td id="player1.2">{{x.gamePlayers[1].player.email}}</td>
+            </tr>
+
+        </table>
+    </section>
+</div>
 
 
 <h2> Leaderboard </h2>
@@ -72,9 +107,7 @@
     </section>
 </div>
 
-<table id="general-game-table" class="table table-hover">
 
-</table>
 
 
 
