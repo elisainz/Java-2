@@ -1,6 +1,28 @@
+var tabla =""
+
 $(function() {
-    loadDataLeaderboard();
+    createGameTable();
+   loadDataLeaderboard();
+
 });
+
+
+function createGameTable () {
+$.get("/api/games")
+.done(
+    function(dataGames) {
+    console.log(dataGames)
+    tabla = "<thead> <tr><th> GAME ID </th> <th> CREATED </th> <th> PLAYER 1 </th> <th> PLAYER 2 </th> <th> GAME ACTIONS </th> </tr> </thead> "
+    dataGames.games.forEach(function (game) {
+             tabla += "<tr>"
+     tabla += "<td>" + game.id + "</td><td>" +  game.created  + "</td><td>" +   + "</td>";
+    })
+  tabla += "</tbody>"
+  return tabla;
+  })
+document.getElementById("general-game-table").innerHTML = tabla;
+}
+
 
 
 
@@ -11,6 +33,8 @@ function updateView(data) {
     }).join('');
 
   document.getElementById("game-table").innerHTML = htmlList;
+
+
 }
 
 // load and display JSON sent by server for /players
@@ -25,7 +49,7 @@ function loadDataLeaderboard (){
           });
 }
 
-$(function() {
+$(function () {
     $('.submitbutton').click(function () {
         submitButton = $(this).attr('name')
     });
