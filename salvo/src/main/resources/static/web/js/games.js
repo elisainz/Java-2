@@ -131,7 +131,7 @@ $('#login-form').on('submit', function (event) {
                 $("#password").val("");
                 $.get("/api/games")
                     .done(function(data){
-                    var player = data.players.email;
+                    var player = data.player.email;
                     $("#formularioLogin").hide();
                     $("#logOut").show();
                     $("#playerLoggueado").text("User: " + player);

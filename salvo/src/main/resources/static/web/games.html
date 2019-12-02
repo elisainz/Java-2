@@ -13,28 +13,27 @@
 <body class="container">
 <h1> Salvo Games</h1>
 
-<div id="FormularioLogin"> <!--w custom bootstrap buttons-->
+<div id="formularioLogin"> <!--w custom bootstrap buttons-->
     <form class="form-group" id="login-form" onsubmit="return false">
-        <br>
-        <br>
+        <div v-if="user=='guest'">
+            <label for="username"> Name: &nbsp; </label>  <input class="form-control" id="username" type="email" placeholder="Enter email" name="username" required >
+            <label for="password"> Password: &nbsp; </label> <input class="form-control" id="password" type="password" placeholder="Password" name="password" required>
+
+
+            <input type="submit" class="form-contro  submitbutton btn btn-info" name="login" value="Log In"> &nbsp;
+
+            <input type="button" class="form-contro  sign-up-button btn btn-primary" name="singup" value="Sign Up">
+
+        </div>
     </form>
 
 </div>
 <div v-if="user != 'guest'">
-    <button class="btn btn-danger" onclick="logout()"> Log Out</button>
+    <button class="btn btn-danger" id="logOut" onclick="logout()"> Log Out</button>
 
 </div>
 
-<div v-if="user=='guest'">
-    <label for="username"> Name: &nbsp; </label>  <input class="form-control" id="username" type="email" placeholder="Enter email" name="username" required >
-    <label for="password"> Password: &nbsp; </label> <input class="form-control" id="password" type="password" placeholder="Password" name="password" required>
 
-
-    <input type="submit" class="form-contro  submitbutton btn btn-info" name="login" value="Log In"> &nbsp;
-
-    <input type="button" class="form-contro  sign-up-button btn btn-primary" name="singup" value="Sign Up">
-
-</div>
 
 <!--<table id="general-game-table" class="table table-hover">
 
