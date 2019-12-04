@@ -2,7 +2,7 @@ var tabla =""
 
 $(function() {
    loadDataLeaderboard();
-
+   $("#logOut").hide();
 });
 
 
@@ -104,12 +104,29 @@ $(function () {
     });
     $(".sign-up-button").click(function(){
     var request = {
-                 username: $("#username").val(),
+                 userName: $("#username").val(),
                  password: $("#password").val()
                  };
         $.post("/api/players", request)
         .done(function(){
-            alert("Success");
+             var request = {
+                             username: $("#username").val(),
+                             password: $("#password").val()
+                             };
+                    $.post("/api/login", request)
+                        .done(function() {
+                         alert("Success");
+                            $('#loginSuccess').show();
+                            $("#username").val("");
+                            $("#password").val("");
+                            $.get("/api/games")
+                                .done(function(data){
+                                var player = data.player.email;
+                                $("#formularioLogin").hide();
+                                $("#logOut").show();
+                                $("#playerLoggueado").text("User: " + player);
+                                })
+                        })
         })
         .fail(function(){
             alert("Error");

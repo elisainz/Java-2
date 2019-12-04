@@ -60,8 +60,21 @@ public class SalvoController {
     }
 
     @RequestMapping("/game_view/{id}")
-    public Map<String, Object> getGameView(@PathVariable long id) {
-        return gameViewDTO(gamePlayerRepository.getOne(id));
+    public ResponseEntity <Map<String, Object>> getGameView(@PathVariable long id, Authentication authentication) {
+
+
+        GamePlayer gamePlayer = gamePlayerRepository.findById(id).orElse(null);
+        if (guest(authentication)) {
+           return new ResponseEntity<> (createMap("error", "debes loguearte primero"), HttpStatus.UNAUTHORIZED);
+        }
+        Player player = playerRepository.findByUserName(authentication.getName());
+        if (gamePlayer.getPlayer().getId() != player.getId()) {
+            return new ResponseEntity<> (createMap("error", "este no es tu juego LAKAAAA"), HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(gameViewDTO(gamePlayer), HttpStatus.ACCEPTED);
+
+
     } //long porque id es numerico
 
 
