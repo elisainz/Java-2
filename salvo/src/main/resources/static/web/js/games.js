@@ -171,3 +171,32 @@ function logout(){
               $("#logOut").hide();
               })
       }
+
+function createGame(){
+                     $.post("/api/games")
+                         .done(function(data){
+                         window.location.href = 'game.html?gp=' + data.gpid;
+                         })
+                     }
+
+function joinGame(gameId){
+            $.post("/api/games/" + gameId + "/players")
+                .done(function(data){
+                    alert("Success: You're in");
+                    window.location.href = '/web/game.html?gp='+data.gpid;
+                    })
+                .fail(function(){
+                    alert("Failed");
+                })
+                }
+
+function returnToGame (gamePlayers){
+            var gamePlayerId = 0;
+            if(gamePlayers[0].player.email == app.user.email){
+                gamePlayerId = gamePlayers[0].gpid
+            } else {
+                gamePlayerId = gamePlayers[1].gpid
+            }
+            window.location.href = 'game.html?gp=' + gamePlayerId;
+        }
+
