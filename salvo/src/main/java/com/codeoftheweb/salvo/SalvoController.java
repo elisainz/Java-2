@@ -65,16 +65,13 @@ public class SalvoController {
 
         GamePlayer gamePlayer = gamePlayerRepository.findById(id).orElse(null);
         if (guest(authentication)) {
-           return new ResponseEntity<> (createMap("error", "You need to log in first"), HttpStatus.UNAUTHORIZED);
+           return new ResponseEntity<> (createMap("error", "debes loguearte primero"), HttpStatus.UNAUTHORIZED);
         }
         Player player = playerRepository.findByUserName(authentication.getName());
         if (gamePlayer.getPlayer().getId() != player.getId()) {
-            return new ResponseEntity<> (createMap("error", "This isn't your game LAKAAAA"), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<> (createMap("error", "este no es tu juego LAKAAAA"), HttpStatus.FORBIDDEN);
         }
-        Game game =  gameRepository.findById(id).get();
-        if(game.getGamePlayers().size() == 2) {
-            return new ResponseEntity<>(createMap("error", "Game's already full."), HttpStatus.FORBIDDEN);
-        }
+
         return new ResponseEntity<>(gameViewDTO(gamePlayer), HttpStatus.ACCEPTED);
 
 
@@ -106,69 +103,21 @@ public class SalvoController {
     }
 
 
-
-//------------create a new player------------
     @RequestMapping(path = "/players", method = RequestMethod.POST)
     // ResponseEntity da flexibilidad adicional para definir encabezados de respuesta HTTP
     public ResponseEntity<Map<String, Object>> register( //register es el nombre que le doy al metodo para crear un nuevo usuario(Player) a partir de la ruta ("/api/"players")
             @RequestParam String userName, @RequestParam String password) {
 
         if (userName.isEmpty() || password.isEmpty()) {
-            return new ResponseEntity<>( createMap("error", "Missing data. Please complete the fields"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>( createMap("error", "Missing data"), HttpStatus.BAD_REQUEST);
         } else if (playerRepository.findByUserName(userName) != null) {
-            return new ResponseEntity<>(createMap ("error", "Username is already taken"), HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(createMap ("error", "Name already in use"), HttpStatus.FORBIDDEN);
         }
 
         Player player = new Player(userName, passwordEncoder.encode(password)); //hay que hacerle autowired al encoder
         playerRepository.save(player);
         return new ResponseEntity<>(createMap("success",player.getPlayerDto()), HttpStatus.CREATED);
     }
-
-
-    //-------------create a new game-----------
-    @RequestMapping(path = "/games", method = RequestMethod.POST)
-    public ResponseEntity<Map<String, Object>> createGame(Authentication authentication){
-        if(isGuest(authentication)){
-            return new ResponseEntity<>(createMap("error", "Can't create game being a guest. You need to log in" ),HttpStatus.FORBIDDEN);
-        }else{
-
-            Game game = gameRepository.save(new Game());
-            Player player = playerRepository.findByUserName(authentication.getName());
-            //?????????
-            GamePlayer gamePlayer = gamePlayerRepository.save(new GamePlayer(joinDate, player, game));
-            return new ResponseEntity<>(createMap("gpid", gamePlayer.getId()), HttpStatus.CREATED);
-
-        }
-    }
-
-    private boolean isGuest(Authentication authentication) {
-        return authentication == null || authentication instanceof AnonymousAuthenticationToken;
-    }
-
-
-
-//------------------join an existent game---------------
-@RequestMapping(path = "/games/{id}/players", method = RequestMethod.POST)
-public ResponseEntity<Map<String, Object>>joinGame(@PathVariable Long id, Authentication authentication){
-    Game game = gameRepository.findById(id).orElse(null);
-    Player player = playerRepository.findByUserName(authentication.getName());
-    if(isGuest(authentication)){
-        return new ResponseEntity<>(createMap("error", "You need to log in first"), HttpStatus.UNAUTHORIZED);
-    }
-    if(game == null){
-        return new ResponseEntity<>(createMap("error", "This game doesn't exist"), HttpStatus.FORBIDDEN);
-    }
-    if(game.getGamePlayers().size() == 2) {
-        return new ResponseEntity<>(createMap("error", "Game's already full"), HttpStatus.FORBIDDEN);
-    }
-//??????????????????
-    GamePlayer gamePlayer = new GamePlayer(player, game);
-    gamePlayerRepository.save(gamePlayer);
-
-    return new ResponseEntity<>(createMap("gpid", gamePlayer.getId()), HttpStatus.CREATED);
-}
-
-
 
 
     @RequestMapping("/leaderboard")
