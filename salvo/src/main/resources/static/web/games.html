@@ -28,7 +28,7 @@
     </form>
 
 </div>
-<div v-if="user != 'guest'">
+<div v-if="user != 'guest'"> <!--boton se muestra solo cuando esta logueado-->
     <button class="btn btn-danger" id="logOut" onclick="logout()"> Log Out</button>
 
 </div>
@@ -49,7 +49,7 @@
                 <th scope="col">GAME ID</th>
                 <th scope="col">PLAYER 1</th>
                 <th scope="col">PLAYER 2</th>
-
+                <th scope="col">GAME ACTIONS</th>
             </tr>
             </thead>
 
@@ -58,6 +58,9 @@
                 <td id="id1">{{x.id}} </td>
                 <td id="player1.1">{{x.gamePlayers[0].player.email}}</td>
                 <td id="player1.2">{{x.gamePlayers[1].player.email}}</td>
+                <td id="gameact"><button class="btn btn-danger" id="gameActions" onclick="joinGame()"> Join Game</button></td>
+
+                </td>
             </tr>
 
         </table>

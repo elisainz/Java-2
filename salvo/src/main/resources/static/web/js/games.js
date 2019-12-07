@@ -3,6 +3,7 @@ var tabla =""
 $(function() {
    loadDataLeaderboard();
    $("#logOut").hide();
+   $("#gameActions").hide(); //joinGame deberia ser y cambiar. ver matibyte en gitlab
 });
 
 
@@ -172,6 +173,9 @@ function logout(){
               })
       }
 
+
+
+//-----------------------------------------------------
 function createGame(){
                      $.post("/api/games")
                          .done(function(data){
@@ -188,7 +192,7 @@ function joinGame(gameId){
                 .fail(function(){
                     alert("Failed");
                 })
-                }
+
 
 function returnToGame (gamePlayers){
             var gamePlayerId = 0;
@@ -199,4 +203,4 @@ function returnToGame (gamePlayers){
             }
             window.location.href = 'game.html?gp=' + gamePlayerId;
         }
-
+}
