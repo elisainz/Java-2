@@ -2,29 +2,19 @@ var tabla =""
 
 $(function() {
    loadDataLeaderboard();
-   $("#logOut").hide();
-   $("#gameActions").hide(); //joinGame deberia ser y cambiar. ver matibyte en gitlab
+   tablaGames ();
+   app.user == guest //AGREGAR IF ACA
+   $("#logout").hide();
+   $("#creategame").hide();
+   $(".joingame").hide();
+
+ //falta que vuelva a preguntar si esta logueado al refrescar para que no muestre el formulario de Log In de nuevo
 });
 
 
 
 //--------------------------------game-table--------------------------------------------
 
- //function createGameTable () {
-//$.get("/api/games")
-//.done(
-//    function(dataGames) {
- //   console.log(dataGames)
- //   tabla = "<thead> <tr><th> GAME ID </th> <th> CREATED </th> <th> PLAYER 1 </th> <th> PLAYER 2 </th> <th> GAME ACTIONS </th> </tr> </thead> "
-  //  dataGames.games.forEach(function (game) {
-    //         tabla += "<tr>"
-     // tabla += "<td>" + game.id + "</td><td>" +  game.created  + "</td><td>" +   + "</td>";
-    //})
-  // tabla += "</tbody>"
-  //return tabla;
-  //})
-//document.getElementById("general-game-table").innerHTML = tabla;
-//}
 
 function tablaGames (){
 $.get("/api/games")
@@ -33,7 +23,7 @@ app.games=data.games;
 app.user == data.player;
 })
 }
-tablaGames ();
+
 
 var app = new Vue({
   el: '#app',
@@ -124,7 +114,8 @@ $(function () {
                                 .done(function(data){
                                 var player = data.player.email;
                                 $("#formularioLogin").hide();
-                                $("#logOut").show();
+                                $("#logout").show();
+                                $(".joingame").show();
                                 $("#playerLoggueado").text("User: " + player);
                                 })
                         })
@@ -151,7 +142,9 @@ $('#login-form').on('submit', function (event) {
                     .done(function(data){
                     var player = data.player.email;
                     $("#formularioLogin").hide();
-                    $("#logOut").show();
+                    $("#logout").show();
+                    $("#creategame").show();
+                    $(".joingame").show();
                     $("#playerLoggueado").text("User: " + player);
                     })
             })
@@ -164,12 +157,14 @@ $('#login-form').on('submit', function (event) {
             })
     }
 });
-function logout(){
+function logOut(){
           $.post("/api/logout")
               .done(function(){
               alert("Logged out");
               $("#formularioLogin").show();
-              $("#logOut").hide();
+              $("#logout").hide();
+              $("#creategame").hide();
+              $(".joingame").hide();
               })
       }
 
@@ -180,6 +175,7 @@ function createGame(){
                      $.post("/api/games")
                          .done(function(data){
                          window.location.href = 'game.html?gp=' + data.gpid;
+                         alert("Game Created");
                          })
                      }
 

@@ -29,8 +29,8 @@
 
 </div>
 <div v-if="user != 'guest'"> <!--boton se muestra solo cuando esta logueado-->
-    <button class="btn btn-danger" id="logOut" onclick="logout()"> Log Out</button>
-
+    <button class="btn btn-danger" id="logout" onclick="logOut()"> Log Out</button>
+    <button class="btn btn-danger" id="creategame" onclick="createGame()"> Create Game</button>
 </div>
 
 
@@ -58,7 +58,7 @@
                 <td id="id1">{{x.id}} </td>
                 <td id="player1.1">{{x.gamePlayers[0].player.email}}</td>
                 <td id="player1.2">{{x.gamePlayers[1].player.email}}</td>
-                <td id="gameact"><button class="btn btn-danger" id="gameActions" onclick="joinGame()"> Join Game</button></td>
+                <td v-if="user !='guest'&& x.gamePlayers.length == 1 && user.email != x.gamePlayers[0].player.email"><button class="joingame" onclick="joinGame()"> Join Game</button></td>
 
                 </td>
             </tr>
