@@ -1,12 +1,19 @@
 var tabla =""
+var games;
+var gamesData;
+var app = new Vue({
+  el: '#app',
+  data: {
+  games : [],
+  user :"",
+  }
+})
 
 $(function() {
+   tablaGames();
    loadDataLeaderboard();
-   tablaGames ();
-   app.user == guest //AGREGAR IF ACA
-   $("#logout").hide();
-   $("#creategame").hide();
-   $(".joingame").hide();
+
+
 
  //falta que vuelva a preguntar si esta logueado al refrescar para que no muestre el formulario de Log In de nuevo
 });
@@ -19,19 +26,24 @@ $(function() {
 function tablaGames (){
 $.get("/api/games")
 .done(function(data){
+games=data.games;
 app.games=data.games;
-app.user == data.player;
+gamesData = data;
+if(gamesData.player == "guest"){
+   $("#formularioLogin").show();
+   $("#logout").hide();
+   $("#creategame").hide();
+   $(".joingame").hide();
+
+    }else{
+        $("#formularioLogin").hide();
+         $("#logout").show();
+    }
 })
 }
 
 
-var app = new Vue({
-  el: '#app',
-  data: {
-  games : [],
-  user :"",
-  }
-})
+
 
 
 
@@ -113,6 +125,8 @@ $(function () {
                             $.get("/api/games")
                                 .done(function(data){
                                 var player = data.player.email;
+
+                                actualPlayer = player;
                                 $("#formularioLogin").hide();
                                 $("#logout").show();
                                 $(".joingame").show();
@@ -141,6 +155,7 @@ $('#login-form').on('submit', function (event) {
                 $.get("/api/games")
                     .done(function(data){
                     var player = data.player.email;
+                    actualPlayer= player;
                     $("#formularioLogin").hide();
                     $("#logout").show();
                     $("#creategame").show();

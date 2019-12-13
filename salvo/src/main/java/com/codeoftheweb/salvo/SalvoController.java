@@ -71,7 +71,7 @@ public class SalvoController {
         if (gamePlayer.getPlayer().getId() != player.getId()) {
             return new ResponseEntity<> (createMap("error", "This isn't your game LAKAAAA"), HttpStatus.FORBIDDEN);
         }
-        Game game =  gameRepository.findById(id).get();
+        Game game =  gamePlayer.getGame();
         if(game.getGamePlayers().size() == 2) {
             return new ResponseEntity<>(createMap("error", "Game's already full."), HttpStatus.FORBIDDEN);
         }
@@ -132,9 +132,9 @@ public class SalvoController {
             return new ResponseEntity<>(createMap("error", "Can't create game being a guest. You need to log in" ),HttpStatus.FORBIDDEN);
         }else{
 
-            Game game = gameRepository.save(new Game());
+            Game game = gameRepository.save(new Game(new Date()));
             Player player = playerRepository.findByUserName(authentication.getName());
-            //?????????
+
             GamePlayer gamePlayer = gamePlayerRepository.save(new GamePlayer(new Date(), game, player));
             return new ResponseEntity<>(createMap("gpid", gamePlayer.getId()), HttpStatus.CREATED);
 
