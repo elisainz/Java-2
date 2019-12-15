@@ -57,10 +57,14 @@
             <tr v-for="x in games">
                 <td id="id1">{{x.id}} </td>
                 <td id="player1.1">{{x.gamePlayers[0].player.email}}</td>
-                <td id="player1.2">{{x.gamePlayers[1].player.email}}</td>
+                <td id="player1.2">{{x.gamePlayers.length > 1 ? x.gamePlayers[1].player.email : "Waiting for opponent..."}}</td>
+
+
                 <td v-if="user !='guest'&& x.gamePlayers.length == 1 && user.email != x.gamePlayers[0].player.email"><button class="joingame" onclick="joinGame()"> Join Game</button></td>
 
-                </td>
+                <td v-if="user !='guest'&& (user.email == x.gamePlayers[0].player.email ||(x.gamePlayers[1] && user.email == x.gamePlayers[1].player.email))" ><button class="returngame" onclick="returnToGame()"> Return Game</button></td>
+
+
             </tr>
 
         </table>

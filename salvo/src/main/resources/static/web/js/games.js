@@ -5,7 +5,7 @@ var app = new Vue({
   el: '#app',
   data: {
   games : [],
-  user :"",
+  user : "guest",
   }
 })
 
@@ -125,11 +125,13 @@ $(function () {
                             $.get("/api/games")
                                 .done(function(data){
                                 var player = data.player.email;
+                                app.user = data.player.email;
 
                                 actualPlayer = player;
                                 $("#formularioLogin").hide();
                                 $("#logout").show();
                                 $(".joingame").show();
+                                $(".returngame").show();
                                 $("#playerLoggueado").text("User: " + player);
                                 })
                         })
@@ -156,10 +158,12 @@ $('#login-form').on('submit', function (event) {
                     .done(function(data){
                     var player = data.player.email;
                     actualPlayer= player;
+                    app.user = player;
                     $("#formularioLogin").hide();
                     $("#logout").show();
                     $("#creategame").show();
                     $(".joingame").show();
+                    $(".returngame").show();
                     $("#playerLoggueado").text("User: " + player);
                     })
             })
@@ -180,6 +184,7 @@ function logOut(){
               $("#logout").hide();
               $("#creategame").hide();
               $(".joingame").hide();
+              $(".returngame").hide();
               })
       }
 
