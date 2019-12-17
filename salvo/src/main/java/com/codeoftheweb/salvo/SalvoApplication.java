@@ -141,10 +141,12 @@ class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/web/games.html*").permitAll()
                 .antMatchers("/web/css/*").permitAll() //**hacen referencia a todas las carpetas dentro de css
                 .antMatchers("/web/js/*").permitAll()
+                .antMatchers("/web/grid.html", "/web/grid.png", "/web/placeShipsGrid.html*").hasAuthority("USER")
+                .antMatchers("/web/dist/**").permitAll()
                 .antMatchers("/api/leaderboard").permitAll()
                 .antMatchers("/api/games", "/api/login").permitAll()
                 .antMatchers("/api/players").permitAll()
-                .antMatchers("/api/game_view/*", "/web/game.html*", "/api/games/*/players").hasAuthority("USER")
+                .antMatchers("/api/game_view/*", "/web/game.html*", "/api/games/*/players", "/api/games/players/*/ships").hasAuthority("USER")
                 .antMatchers("/rest/*").hasAuthority("ADMIN")
                 .anyRequest().denyAll();
 

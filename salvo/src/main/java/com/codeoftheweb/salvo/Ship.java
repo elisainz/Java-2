@@ -28,11 +28,18 @@ public class Ship {
     public Ship() {
     } //constructor vacio
 
+    public void setGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayer = gamePlayer;
+    }
+
     public Ship(String type, GamePlayer gamePlayer, List<String> shipLocations) //esto es un constructor. alt ins
     {
         this.type = type;
         this.gamePlayer = gamePlayer;
         this.shipLocations = shipLocations;
+    }
+
+    public Ship(String type, List<String> shipLocations, GamePlayer gamePlayer) {
     }
 
     public long getId() //getters
