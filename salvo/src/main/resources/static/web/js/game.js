@@ -14,12 +14,18 @@ function loadData() {
     .done(function (data) {
       console.log(data);
       var playerInfo;
-      if (data.gamePlayers[0].id == getParameterByName('gp'))
+      if(game.gamePlayers.length == 2){
+      if (data.gamePlayers[0].gpid == getParameterByName('gp'))
         playerInfo = [data.gamePlayers[0].player, data.gamePlayers[1].player];
       else
         playerInfo = [data.gamePlayers[1].player, data.gamePlayers[0].player];
 
       $('#playerInfo').text(playerInfo[0].email + '(you) vs ' + playerInfo[1].email);
+
+       } else {
+              playerInfo = [game.gamePlayers[0].player];
+              $('#playerInfo').text(playerInfo[0].email + ' (you) vs ' + "A mysterious player (name yet to be revealed)");
+            }
 
       data.ships.forEach(function (shipPiece) {
         shipPiece.shipLocations.forEach(function (shipLocation) {

@@ -213,11 +213,15 @@ getParameterByName('gp');
 var gpid = Number(getParameterByName('gp'));
 
 function placeShips(gpid){
-    var shipTypes = ['battleship','carrier','destroyer','patrol_boat','submarine'];
-    var datosShips = shipTypes.map(x => obtenerPosicion(x));
+    var shipTypes = ["battleship","carrier","destroyer","patrol_boat","submarine"];
+        var placedShips = [];
+        for(var i=0; i<shipTypes.length; i++){
+        placedShips[i] = obtenerPosicion(shipTypes[i]);
+        }
+
     $.post({
       url: "/api/games/players/" + gpid + "/ships",
-      data: JSON.stringify(datosShips),
+      data: JSON.stringify(placedShips),
       dataType: "text",
       contentType: "application/json"
     })
@@ -231,3 +235,10 @@ function placeShips(gpid){
       alert("Failed to add ships: " + status + " " + httpError);
     })
     }
+
+ function getParameterByName(name) {
+   var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+   return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+ }
+ getParameterByName('gp');
+ var gpid = Number(getParameterByName('gp'));

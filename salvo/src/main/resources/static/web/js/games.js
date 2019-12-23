@@ -203,7 +203,7 @@ function joinGame(gameId){
             $.post("/api/games/" + gameId + "/players")
                 .done(function(data){
                     alert("Success: You're in");
-                    window.location.href = '/web/game.html?gp='+data.gpid;
+                    window.location.href = '/web/placeShipsGrid.html?gp=' + data.gpid;
                     })
                 .fail(function(){
                     alert("Failed");
